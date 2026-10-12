@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { ogQuerySchema, parseSearchParams } from '@/lib/api-validation';
+import { ogQuerySchema, parseSearchParams, mergeOgParams } from '@/lib/api-validation';
 import { renderToPng } from '@/lib/og-engine';
 import { getTemplate } from '@/templates/registry';
 
@@ -50,20 +50,9 @@ export const GET: APIRoute = async ({ request, locals }) => {
   }
 
   try {
-    // Merge template defaults with provided params
-    const mergedParams: Record<string, string | number | boolean> = { ...template.defaults };
-    for (const [key, value] of Object.entries(params)) {
-      if (value != null && value !== '') {
-        mergedParams[key] = value as string | number | boolean;
-      }
-    }
-
-    // Also pass through any extra query params (template-specific fields)
-    url.searchParams.forEach((value, key) => {
-      if (!(key in mergedParams) && value) {
-        mergedParams[key] = value;
-      }
-    });
+    // Merge template defaults with provided params. Schema params override
+    // defaults when non-empty; template-specific query params override too.
+    const mergedParams = mergeOgParams(params, template.defaults, url.searchParams);
 
     const element = template.render(mergedParams);
     const png = await renderToPng(element, {
