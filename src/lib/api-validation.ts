@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const ogQuerySchema = z.object({
   template: z.string().default('blog-minimal-dark'),
-  title: z.string().min(1, 'Title is required').optional(),
+  title: z.string().optional(),
   description: z.string().optional().default(''),
   author: z.string().optional().default(''),
   date: z.string().optional().default(''),

@@ -21,12 +21,17 @@ describe('OG API Validation', () => {
     }
   });
 
-  it('should reject an explicitly empty title', () => {
+  it('should accept an explicitly empty title and treat it as not provided', () => {
     const result = ogQuerySchema.safeParse({
       title: '',
       template: 'blog-minimal-dark',
     });
-    expect(result.success).toBe(false);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      // empty string passes through as-is; mergeOgParams skips empty values so
+      // the template default title will be used at render time
+      expect(result.data.title).toBe('');
+    }
   });
 
   it('should use defaults for optional params', () => {
