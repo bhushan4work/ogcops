@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import type { TemplateDefinition, TemplateCategory } from '@/templates/types';
 import { getAllTemplates, getTemplate } from '@/templates/registry';
+import { normalizeColorFields } from '@/templates/utils';
 import { useEditorState } from './useEditorState';
 import { useSatoriRenderer } from './useSatoriRenderer';
 import { useDebounce } from './useDebounce';
@@ -88,7 +89,9 @@ function EditorAppInner({ initialCategory }: EditorAppProps) {
   // Re-render on param or template change
   useEffect(() => {
     if (currentTemplate) {
-      const element = currentTemplate.render(debouncedParams);
+      const mergedParams = { ...currentTemplate.defaults, ...debouncedParams };
+      const normalizedParams = normalizeColorFields(currentTemplate, mergedParams);
+      const element = currentTemplate.render(normalizedParams);
       render(element);
     }
   }, [currentTemplate, debouncedParams, render]);

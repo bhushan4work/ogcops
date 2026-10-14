@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { ogQuerySchema, parseSearchParams, mergeOgParams } from '@/lib/api-validation';
-import { getTemplate } from '@/templates/registry';
+import { getTemplate, getAllTemplates } from '@/templates/registry';
+import { normalizeColorFields } from '@/templates/utils';
 
 describe('OG API Validation', () => {
   it('should validate valid params', () => {
@@ -193,5 +194,40 @@ describe('OG API error caching', () => {
 
     expect(res.status).toBe(200);
     expect(res.headers.get('cache-control')).toBe('public, max-age=86400');
+  });
+});
+
+describe('OG API color normalization and templates', () => {
+  it('passes normalized accentColor to template render', async () => {
+    const template = getTemplate('blog-minimal-dark')!;
+    const render = vi.spyOn(template, 'render');
+
+    try {
+      const res = await GET(makeContext(`${BASE}?template=blog-minimal-dark&accentColor=00ff00`));
+
+      expect(res.status).toBe(200);
+      expect(render).toHaveBeenCalledWith(
+        expect.objectContaining({ accentColor: '#00ff00' })
+      );
+    } finally {
+      render.mockRestore();
+    }
+  });
+
+  it('ensures partial editor input does not cause render errors across templates', () => {
+    const templates = getAllTemplates();
+    const partialValues = ['#', '#0', '#0f', '0', '00', 'invalid', ''];
+    for (const t of templates) {
+      for (const partial of partialValues) {
+        const partialParams: Record<string, any> = { ...t.defaults };
+        for (const f of t.fields) {
+          if (f.type === 'color') {
+            partialParams[f.key] = partial;
+          }
+        }
+        const normalized = normalizeColorFields(t, partialParams);
+        expect(() => t.render(normalized)).not.toThrow();
+      }
+    }
   });
 });

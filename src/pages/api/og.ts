@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { ogQuerySchema, parseSearchParams, mergeOgParams } from '@/lib/api-validation';
 import { renderToPng } from '@/lib/og-engine';
 import { getTemplate } from '@/templates/registry';
+import { normalizeColorFields } from '@/templates/utils';
 
 export const GET: APIRoute = async ({ request, locals }) => {
   const url = new URL(request.url);
@@ -58,8 +59,9 @@ export const GET: APIRoute = async ({ request, locals }) => {
     // Merge template defaults with provided params. Schema params override
     // defaults when non-empty; template-specific query params override too.
     const mergedParams = mergeOgParams(params, template.defaults, url.searchParams);
+    const normalizedParams = normalizeColorFields(template, mergedParams);
 
-    const element = template.render(mergedParams);
+    const element = template.render(normalizedParams);
     const png = await renderToPng(element, {
       width: params.width,
       height: params.height,
