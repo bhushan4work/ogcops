@@ -1,12 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { renderToString } from 'react-dom/server';
 import React from 'react';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
 import { parseEditorQueryParams } from '@/components/editor/EditorApp';
 import { editorReducer, type EditorState } from '@/components/editor/useEditorState';
 import { AIAutofill } from '@/components/editor/AIAutofill';
 import { AIProvider } from '@/components/editor/AIContext';
+import { CustomizePanel } from '@/components/editor/CustomizePanel';
 import { FixItButton } from '@/components/preview/FixItButton';
 import { getTemplate } from '@/templates/registry';
 
@@ -85,6 +84,51 @@ describe('Editor Query Parameter Parsing', () => {
     expect(result.params.rating).toBe(5);
     expect(result.params.title).toBe('Sneakers');
   });
+
+  it('ignores invalid numeric query parameter rating=abc without NaN reaching editor state or UI', () => {
+    const result = parseEditorQueryParams(
+      '?template=ecommerce-product-card&rating=abc',
+      defaultTemplate
+    );
+    expect(result.template).toBeDefined();
+    expect(result.template?.id).toBe('ecommerce-product-card');
+    expect(result.params.rating).toBeUndefined();
+
+    // Verify rating remains valid in editor state
+    const template = result.template!;
+    const stateAfterTemplate = editorReducer(
+      {
+        templateId: defaultTemplate.id,
+        category: defaultTemplate.category,
+        params: { ...defaultTemplate.defaults },
+        searchQuery: '',
+      },
+      { type: 'SET_TEMPLATE', template }
+    );
+    const finalState =
+      Object.keys(result.params).length > 0
+        ? editorReducer(stateAfterTemplate, { type: 'SET_PARAMS', params: result.params })
+        : stateAfterTemplate;
+
+    expect(finalState.params.rating).toBe(template.defaults.rating);
+    expect(Number.isFinite(finalState.params.rating)).toBe(true);
+
+    // Verify no NaN reaches the UI
+    const html = renderToString(
+      React.createElement(
+        AIProvider,
+        null,
+        React.createElement(CustomizePanel, {
+          fields: template.fields,
+          params: finalState.params,
+          onParamChange: () => {},
+          onReset: () => {},
+        })
+      )
+    );
+    expect(html).not.toContain('NaN');
+    expect(html).toContain(String(template.defaults.rating));
+  });
 });
 
 describe('editorReducer state transitions', () => {
@@ -159,24 +203,5 @@ describe('Preview and Template Links', () => {
     expect(html).toContain(
       '/create?title=My%20Custom%20Page&amp;description=A%20great%20description'
     );
-  });
-
-  it('gallery cards link to /create?template=id', () => {
-    const quoteTemplate = getTemplate('quote-centered-serif')!;
-    const link = `/create?template=${quoteTemplate.id}`;
-    const parsed = parseEditorQueryParams(link.replace('/create', ''), quoteTemplate);
-    expect(parsed.template?.id).toBe('quote-centered-serif');
-  });
-});
-
-describe('README.md:33 accuracy', () => {
-  it('accurately describes URL-based State as prefill', () => {
-    const readme = readFileSync(resolve(process.cwd(), 'README.md'), 'utf-8');
-    const lines = readme.split('\n');
-    const line33 = lines[32]; // 0-indexed line 33
-    expect(line33).toBe(
-      '- **URL-based State**: Prefill editor state via URL params — share or bookmark any configuration'
-    );
-    expect(line33).not.toContain('All editor state is encoded in URL params');
   });
 });

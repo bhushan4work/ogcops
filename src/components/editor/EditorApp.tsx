@@ -82,7 +82,9 @@ export function parseEditorQueryParams(
         params[key] = value === 'true' || value === '1';
       } else if (field.type === 'number') {
         const num = Number(value);
-        params[key] = isNaN(num) ? value : num;
+        if (Number.isFinite(num)) {
+          params[key] = num;
+        }
       } else {
         params[key] = value;
       }
@@ -92,7 +94,9 @@ export function parseEditorQueryParams(
         params[key] = value === 'true' || value === '1';
       } else if (typeof defaultVal === 'number') {
         const num = Number(value);
-        params[key] = isNaN(num) ? value : num;
+        if (Number.isFinite(num)) {
+          params[key] = num;
+        }
       } else {
         params[key] = value;
       }
