@@ -97,7 +97,7 @@ export function usePreviewState() {
       setData(json);
 
       if (typeof window !== 'undefined' && window.history?.replaceState) {
-        window.history.replaceState(null, '', `/preview?url=${encodeURIComponent(normalizedUrl)}`);
+        window.history.replaceState(window.history.state, '', `/preview?url=${encodeURIComponent(normalizedUrl)}`);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Network error');

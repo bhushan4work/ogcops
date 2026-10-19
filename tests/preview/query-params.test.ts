@@ -122,6 +122,7 @@ describe('usePreviewState Address Bar Synchronization', () => {
     replaceStateMock = vi.fn();
     (global as any).window = {
       history: {
+        state: null,
         replaceState: replaceStateMock,
       },
     };
@@ -137,6 +138,9 @@ describe('usePreviewState Address Bar Synchronization', () => {
   });
 
   it('updates address bar with encoded URL using history.replaceState upon successful check', async () => {
+    const mockState = { astro: { index: 1 } };
+    (window.history as any).state = mockState;
+
     const mockData = {
       url: 'https://example.com',
       meta: { title: 'Example Title', description: 'Example Desc' },
@@ -161,13 +165,16 @@ describe('usePreviewState Address Bar Synchronization', () => {
 
     expect(replaceStateMock).toHaveBeenCalledTimes(1);
     expect(replaceStateMock).toHaveBeenCalledWith(
-      null,
+      mockState,
       '',
       '/preview?url=https%3A%2F%2Fexample.com'
     );
   });
 
   it('normalizes protocol and encodes URL in history.replaceState', async () => {
+    const mockState = { astro: { index: 2 } };
+    (window.history as any).state = mockState;
+
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({ url: 'https://example.com/test?a=1&b=2' }),
@@ -185,7 +192,7 @@ describe('usePreviewState Address Bar Synchronization', () => {
 
     expect(replaceStateMock).toHaveBeenCalledTimes(1);
     expect(replaceStateMock).toHaveBeenCalledWith(
-      null,
+      mockState,
       '',
       '/preview?url=https%3A%2F%2Fexample.com%2Ftest%3Fa%3D1%26b%3D2'
     );
