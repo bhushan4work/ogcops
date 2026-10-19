@@ -19,7 +19,7 @@ export const ogQuerySchema = z.object({
   ),
   height: z.preprocess(
     (v) => (v === '' || v === undefined ? undefined : v),
-    z.coerce.number().min(100).max(2400).optional()
+    z.coerce.number().min(105).max(1260).optional()
   ),
 });
 
@@ -29,6 +29,8 @@ export const OG_DEFAULT_WIDTH = 1200;
 export const OG_DEFAULT_HEIGHT = 630;
 export const OG_MIN_WIDTH = 200;
 export const OG_MAX_WIDTH = 2400;
+export const OG_MIN_HEIGHT = 105;
+export const OG_MAX_HEIGHT = 1260;
 
 export type DimensionResolution =
   | { success: true; width: number; height: number }
@@ -49,6 +51,13 @@ export function resolveDimensions(
     return {
       success: false,
       error: `Width must be between ${OG_MIN_WIDTH} and ${OG_MAX_WIDTH}`,
+    };
+  }
+
+  if (height !== undefined && (height < OG_MIN_HEIGHT || height > OG_MAX_HEIGHT)) {
+    return {
+      success: false,
+      error: `Height must be between ${OG_MIN_HEIGHT} and ${OG_MAX_HEIGHT}`,
     };
   }
 

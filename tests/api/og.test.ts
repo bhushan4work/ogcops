@@ -66,11 +66,36 @@ describe('OG API Validation', () => {
   });
 
   it('should reject invalid dimensions', () => {
-    const result = ogQuerySchema.safeParse({
+    expect(ogQuerySchema.safeParse({ title: 'Test', width: '50' }).success).toBe(false);
+    expect(ogQuerySchema.safeParse({ title: 'Test', width: '199' }).success).toBe(false);
+    expect(ogQuerySchema.safeParse({ title: 'Test', width: '2401' }).success).toBe(false);
+    expect(ogQuerySchema.safeParse({ title: 'Test', height: '50' }).success).toBe(false);
+    expect(ogQuerySchema.safeParse({ title: 'Test', height: '104' }).success).toBe(false);
+    expect(ogQuerySchema.safeParse({ title: 'Test', height: '1261' }).success).toBe(false);
+  });
+
+  it('should accept boundary dimensions', () => {
+    const minResult = ogQuerySchema.safeParse({
       title: 'Test',
-      width: '50', // too small
+      width: '200',
+      height: '105',
     });
-    expect(result.success).toBe(false);
+    expect(minResult.success).toBe(true);
+    if (minResult.success) {
+      expect(minResult.data.width).toBe(200);
+      expect(minResult.data.height).toBe(105);
+    }
+
+    const maxResult = ogQuerySchema.safeParse({
+      title: 'Test',
+      width: '2400',
+      height: '1260',
+    });
+    expect(maxResult.success).toBe(true);
+    if (maxResult.success) {
+      expect(maxResult.data.width).toBe(2400);
+      expect(maxResult.data.height).toBe(1260);
+    }
   });
 });
 
@@ -158,9 +183,15 @@ describe('resolveDimensions', () => {
 
   it('rejects dimensions that resolve out of bounds', () => {
     expect(resolveDimensions(50).success).toBe(false);
+    expect(resolveDimensions(199).success).toBe(false);
+    expect(resolveDimensions(2401).success).toBe(false);
     expect(resolveDimensions(3000).success).toBe(false);
-    expect(resolveDimensions(undefined, 2000).success).toBe(false);
     expect(resolveDimensions(undefined, 50).success).toBe(false);
+    expect(resolveDimensions(undefined, 104).success).toBe(false);
+    expect(resolveDimensions(undefined, 1261).success).toBe(false);
+    expect(resolveDimensions(undefined, 2000).success).toBe(false);
+    expect(resolveDimensions(600, 50).success).toBe(false);
+    expect(resolveDimensions(600, 1300).success).toBe(false);
   });
 });
 
