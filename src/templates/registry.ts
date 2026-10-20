@@ -214,10 +214,12 @@ import ecommercePriceDrop from './ecommerce/price-drop';
 import ecommerceNewArrival from './ecommerce/new-arrival';
 import ecommerceComparisonGrid from './ecommerce/comparison-grid';
 import ecommerceBrandStory from './ecommerce/brand-story';
+import ecommerceCouponCode from './ecommerce/coupon-code';
 
 [
   ecommerceProductCard, ecommerceSaleBanner, ecommerceCollection, ecommerceReviewHighlight,
   ecommercePriceDrop, ecommerceNewArrival, ecommerceComparisonGrid, ecommerceBrandStory,
+  ecommerceCouponCode,
 ].forEach(registerTemplate);
 
 // Job
