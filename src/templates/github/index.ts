@@ -9,3 +9,4 @@ export { default as githubCodeWindow } from './code-window';
 export { default as githubMinimalBadge } from './minimal-badge';
 export { default as githubMatrix } from './matrix';
 export { default as githubContributorsWall } from './contributors-wall';
+export { default as githubIssueCard } from './issue-card';

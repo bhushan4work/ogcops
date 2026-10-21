@@ -55,6 +55,7 @@ import blogDuotone from './blog/duotone';
 import blogGeometric from './blog/geometric';
 import blogRetroTerminal from './blog/retro-terminal';
 import blogSeriesPart from './blog/series-part';
+import blogSummaryCard from './blog/summary-card';
 
 [
   blogMinimalDark,
@@ -70,6 +71,7 @@ import blogSeriesPart from './blog/series-part';
   blogGeometric,
   blogRetroTerminal,
   blogSeriesPart,
+  blogSummaryCard,
 ].forEach(registerTemplate);
 
 // Product
@@ -83,11 +85,13 @@ import productFeatureGrid from './product/feature-grid';
 import productAnnouncement from './product/announcement';
 import productMinimalBadge from './product/minimal-badge';
 import productDarkPremium from './product/dark-premium';
+import productShortcutTip from './product/shortcut-tip';
 
 [
   productCenteredHero, productSplitScreen, productGradientWave, productNeonGlow,
   productGlassmorphism, productAppShowcase, productFeatureGrid, productAnnouncement,
   productMinimalBadge, productDarkPremium,
+  productShortcutTip,
 ].forEach(registerTemplate);
 
 // SaaS
@@ -120,11 +124,13 @@ import githubCodeWindow from './github/code-window';
 import githubMinimalBadge from './github/minimal-badge';
 import githubMatrix from './github/matrix';
 import githubContributorsWall from './github/contributors-wall';
+import githubIssueCard from './github/issue-card';
 
 [
   githubRepoCard, githubContributionGraph, githubReadmeHero, githubReleaseNotes,
   githubLanguageBars, githubStarsBanner, githubTerminalStyle, githubCodeWindow,
   githubMinimalBadge, githubMatrix, githubContributorsWall,
+  githubIssueCard,
 ].forEach(registerTemplate);
 
 // Event
@@ -138,10 +144,12 @@ import eventCountdown from './event/countdown';
 import eventVenueMap from './event/venue-map';
 import eventTicketCta from './event/ticket-cta';
 import eventMultiSpeaker from './event/multi-speaker';
+import eventAgenda from './event/agenda';
 
 [
   eventConference, eventMeetup, eventWebinar, eventWorkshop, eventHackathon,
   eventSpeakerSpotlight, eventCountdown, eventVenueMap, eventTicketCta, eventMultiSpeaker,
+  eventAgenda,
 ].forEach(registerTemplate);
 
 // Podcast
@@ -169,11 +177,12 @@ import developerGithubStyle from './developer/github-style';
 import developerResumeHeader from './developer/resume-header';
 import developerVscodeTheme from './developer/vscode-theme';
 import developerLinkTree from './developer/link-tree';
+import developerOpenToWork from './developer/open-to-work';
 
 [
   developerPortfolioCard, developerTechStack, developerTerminalBio, developerGradientProfile,
   developerSkillsRadar, developerGithubStyle, developerResumeHeader, developerVscodeTheme,
-  developerLinkTree,
+  developerLinkTree, developerOpenToWork,
 ].forEach(registerTemplate);
 
 // Newsletter
@@ -215,10 +224,12 @@ import ecommercePriceDrop from './ecommerce/price-drop';
 import ecommerceNewArrival from './ecommerce/new-arrival';
 import ecommerceComparisonGrid from './ecommerce/comparison-grid';
 import ecommerceBrandStory from './ecommerce/brand-story';
+import ecommerceCouponCode from './ecommerce/coupon-code';
 
 [
   ecommerceProductCard, ecommerceSaleBanner, ecommerceCollection, ecommerceReviewHighlight,
   ecommercePriceDrop, ecommerceNewArrival, ecommerceComparisonGrid, ecommerceBrandStory,
+  ecommerceCouponCode,
 ].forEach(registerTemplate);
 
 // Job
