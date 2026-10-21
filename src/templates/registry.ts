@@ -119,11 +119,12 @@ import githubTerminalStyle from './github/terminal-style';
 import githubCodeWindow from './github/code-window';
 import githubMinimalBadge from './github/minimal-badge';
 import githubMatrix from './github/matrix';
+import githubContributorsWall from './github/contributors-wall';
 
 [
   githubRepoCard, githubContributionGraph, githubReadmeHero, githubReleaseNotes,
   githubLanguageBars, githubStarsBanner, githubTerminalStyle, githubCodeWindow,
-  githubMinimalBadge, githubMatrix,
+  githubMinimalBadge, githubMatrix, githubContributorsWall,
 ].forEach(registerTemplate);
 
 // Event
