@@ -109,7 +109,7 @@ const template: TemplateDefinition = {
   },
   render: (params) => {
     const rawRepoName = String(params.repoName || '').trim();
-    const repoName = rawRepoName ? truncate(rawRepoName, 50) : '';
+    const repoName = rawRepoName ? truncate(rawRepoName, 40) : '';
 
     const rawDescription = String(params.description || '').trim();
     const description = rawDescription ? truncate(rawDescription, 160) : '';
@@ -397,7 +397,6 @@ const template: TemplateDefinition = {
                     style: {
                       display: 'flex',
                       flexWrap: 'wrap',
-                      alignContent: 'center',
                       gap: '16px',
                       width: '380px',
                     },

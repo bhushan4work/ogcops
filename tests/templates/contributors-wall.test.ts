@@ -186,6 +186,20 @@ describe('github-contributors-wall', () => {
       expect(svg).toMatch(/^<svg/);
     });
 
+    it('truncates long repository name to 40 characters', () => {
+      const longRepo = 'GoogleCloudPlatform/kubernetes-engine-samples';
+      const rendered = texts(tree({ repoName: longRepo }));
+      expect(rendered).toContain('GoogleCloudPlatform/kubernetes-engine-s…');
+    });
+
+    it('does not set alignContent on the avatar wall container', () => {
+      const wallContainer = elements(tree()).find(
+        (el) => el.type === 'div' && el.props.style?.width === '380px'
+      );
+      expect(wallContainer).toBeDefined();
+      expect(wallContainer?.props.style?.alignContent).toBeUndefined();
+    });
+
     it('renders cleanly on a white background with dark text', async () => {
       const rendered = tree({
         bgColor: '#ffffff',
