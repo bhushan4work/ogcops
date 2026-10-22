@@ -69,4 +69,60 @@ describe('template render', () => {
     expect(elementJson.match(/"fill":"#F5C518"/g)).toHaveLength(3);
     expect(elementJson.match(/"fill":"#333333"/g)).toHaveLength(2);
   });
+
+  // Verify that all templates render with their defaults without unresolved font glyphs.
+  // If the five templates affected by issue #162 are not yet fixed in the current base,
+  // exclude only those five from this new assertion: https://github.com/codercops/ogcops/issues/162
+  const issue162Templates = new Set([
+    'ecommerce-product-card',
+    'ecommerce-review-highlight',
+    'tutorial-platform-branded',
+    'saas-testimonial-banner',
+    'github-stars-banner',
+  ]);
+
+  it.each(getAllTemplates().map((t) => [t.id, t] as const))(
+    'renders %s with defaults and no unsupported characters',
+    async (id, template) => {
+      const unresolved: string[] = [];
+      const element = template.render(template.defaults);
+      const svg = await satori(element as any, {
+        width: 1200,
+        height: 630,
+        fonts,
+        loadAdditionalAsset: async (_code, segment) => {
+          unresolved.push(segment);
+          return '';
+        },
+      });
+
+      expect(svg).toMatch(/^<svg/);
+      if (issue162Templates.has(id) && unresolved.length > 0) {
+        // Exclude only the five templates affected by issue #162 if not yet fixed:
+        // https://github.com/codercops/ogcops/issues/162
+        return;
+      }
+      expect(unresolved).toEqual([]);
+    },
+  );
+
+  it('renders github-repo-card with defaults and no unsupported characters', async () => {
+    const template = getAllTemplates().find(({ id }) => id === 'github-repo-card');
+    if (!template) throw new Error('Template not found: github-repo-card');
+
+    const unresolved: string[] = [];
+    const element = template.render(template.defaults);
+    const svg = await satori(element as any, {
+      width: 1200,
+      height: 630,
+      fonts,
+      loadAdditionalAsset: async (_code, segment) => {
+        unresolved.push(segment);
+        return '';
+      },
+    });
+
+    expect(svg).toMatch(/^<svg/);
+    expect(unresolved).toEqual([]);
+  });
 });

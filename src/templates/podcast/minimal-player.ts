@@ -1,5 +1,5 @@
 import type { TemplateDefinition } from '../types';
-import { truncate, autoFontSize, commonFields } from '../utils';
+import { truncate, autoFontSize, commonFields, musicNoteIcon } from '../utils';
 
 const template: TemplateDefinition = {
   id: 'podcast-minimal-player',
@@ -97,13 +97,7 @@ const template: TemplateDefinition = {
                             borderRadius: '14px',
                             background: `linear-gradient(135deg, ${accentColor}, ${accentColor}88)`,
                           },
-                          children: {
-                            type: 'span',
-                            props: {
-                              style: { fontSize: '28px', color: '#FFFFFF' },
-                              children: '\u266A',
-                            },
-                          },
+                          children: musicNoteIcon(28, '#FFFFFF'),
                         },
                       },
                       {
