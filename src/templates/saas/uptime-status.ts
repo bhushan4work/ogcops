@@ -41,12 +41,10 @@ const template: TemplateDefinition = {
   tags: ['saas', 'uptime', 'status', 'monitoring', 'incident'],
   fields: [
     {
-      key: 'serviceName',
+      ...commonFields.title,
       label: 'Service Name',
-      type: 'text',
       defaultValue: 'Cloud API Platform',
       placeholder: 'e.g. Cloud API Platform',
-      group: 'Content',
     },
     {
       key: 'status',
@@ -69,7 +67,7 @@ const template: TemplateDefinition = {
       group: 'Content',
     },
     {
-      key: 'uptimePercentage',
+      key: 'uptime',
       label: 'Uptime Percentage',
       type: 'text',
       defaultValue: '99.98%',
@@ -90,10 +88,10 @@ const template: TemplateDefinition = {
     { ...commonFields.accentColor, defaultValue: '#10b981' },
   ],
   defaults: {
-    serviceName: 'Cloud API Platform',
+    title: 'Cloud API Platform',
     status: 'operational',
     statusMessage: '',
-    uptimePercentage: '99.98%',
+    uptime: '99.98%',
     period: 'Last 90 days',
     siteName: 'status.example.com',
     bgColor: '#0b0f19',
@@ -101,7 +99,7 @@ const template: TemplateDefinition = {
     accentColor: '#10b981',
   },
   render: (params) => {
-    const serviceName = truncate(String(params.serviceName || params.title || 'Cloud API Platform'), 50);
+    const serviceName = truncate(String(params.title || 'Cloud API Platform'), 50);
     const rawStatus = String(params.status || 'operational').toLowerCase();
     const activeStatus = STATUS_CONFIG[rawStatus] || STATUS_CONFIG.operational;
     const statusColor = activeStatus.color;
@@ -109,11 +107,12 @@ const template: TemplateDefinition = {
       ? truncate(String(params.statusMessage), 60)
       : activeStatus.message;
     const statusLabel = activeStatus.label;
-    const uptimePercentage = String(params.uptimePercentage || params.uptime || '99.98%');
+    const uptime = String(params.uptime || '99.98%');
     const period = String(params.period ?? 'Last 90 days');
-    const siteName = String(params.siteName || '');
+    const siteName = truncate(String(params.siteName || ''), 40);
     const bgColor = String(params.bgColor || '#0b0f19');
     const textColor = String(params.textColor || '#f8fafc');
+    const accentColor = String(params.accentColor || '#10b981');
 
     const nameSize = autoFontSize(serviceName, [
       { maxLen: 20, size: 44 },
@@ -208,6 +207,9 @@ const template: TemplateDefinition = {
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '4px',
+                      flex: 1,
+                      minWidth: 0,
+                      paddingRight: '24px',
                     },
                     children: [
                       {
@@ -218,7 +220,7 @@ const template: TemplateDefinition = {
                             fontWeight: 700,
                             letterSpacing: '1.5px',
                             textTransform: 'uppercase',
-                            color: GREEN,
+                            color: accentColor,
                           },
                           children: 'SYSTEM STATUS',
                         },
@@ -250,6 +252,7 @@ const template: TemplateDefinition = {
                             borderRadius: '8px',
                             backgroundColor: `${textColor}0c`,
                             border: `1px solid ${textColor}18`,
+                            flexShrink: 0,
                           },
                           children: [
                             {
@@ -349,6 +352,7 @@ const template: TemplateDefinition = {
                       borderRadius: '16px',
                       backgroundColor: `${statusColor}22`,
                       border: `1px solid ${statusColor}44`,
+                      flexShrink: 0,
                     },
                     children: [
                       {
@@ -426,7 +430,7 @@ const template: TemplateDefinition = {
                                   fontFamily: 'JetBrains Mono, monospace',
                                   lineHeight: 1,
                                 },
-                                children: uptimePercentage,
+                                children: uptime,
                               },
                             },
                             ...(period

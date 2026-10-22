@@ -45,6 +45,27 @@ describe('saas-uptime-status', () => {
     expect(output).toContain('90 days ago');
     expect(output).toContain('Today');
     expect(output).toContain('status.example.com');
+
+    // Default accent color on SYSTEM STATUS label
+    const all = elements(tree());
+    const statusLabel = all.find((el) => el.props?.children === 'SYSTEM STATUS');
+    expect(statusLabel?.props.style?.color).toBe('#10b981');
+  });
+
+  it('uses commonFields.title with Service Name label and uptime field with clean defaults', () => {
+    const titleField = uptimeStatus.fields.find((f) => f.key === 'title');
+    expect(titleField).toBeDefined();
+    expect(titleField?.label).toBe('Service Name');
+
+    const uptimeField = uptimeStatus.fields.find((f) => f.key === 'uptime');
+    expect(uptimeField).toBeDefined();
+
+    expect(uptimeStatus.defaults.title).toBe('Cloud API Platform');
+    expect(uptimeStatus.defaults.uptime).toBe('99.98%');
+    expect((uptimeStatus.defaults as any).serviceName).toBeUndefined();
+    expect((uptimeStatus.defaults as any).uptimePercentage).toBeUndefined();
+    expect(uptimeStatus.fields.find((f) => f.key === 'serviceName')).toBeUndefined();
+    expect(uptimeStatus.fields.find((f) => f.key === 'uptimePercentage')).toBeUndefined();
   });
 
   it('renders exactly 90 status bars fitting within the content area', () => {
@@ -116,14 +137,16 @@ describe('saas-uptime-status', () => {
     expect(output).toContain('Database cluster upgrade in progress');
   });
 
-  it('falls back to title when serviceName is empty', () => {
-    const output = render({ serviceName: '', title: 'Custom API Service' });
-    expect(output).toContain('Custom API Service');
+  it('renders supplied title and uptime parameters correctly', () => {
+    const output = render({ title: 'My API', uptime: '99%' });
+    expect(output).toContain('My API');
+    expect(output).toContain('99%');
+    expect(output).not.toContain('Cloud API Platform');
+    expect(output).not.toContain('99.98%');
   });
 
   it('renders correctly with optional text fields empty', () => {
     const output = render({
-      serviceName: '',
       title: '',
       statusMessage: '',
       period: '',
@@ -133,6 +156,55 @@ describe('saas-uptime-status', () => {
     expect(output).toContain('Cloud API Platform');
     expect(output).toContain('All Systems Operational');
     expect(output).not.toContain('status.example.com');
+  });
+
+  it('applies accentColor to the SYSTEM STATUS label', () => {
+    const customAccent = '#8b5cf6';
+    const all = elements(tree({ accentColor: customAccent }));
+    const statusLabel = all.find((el) => el.props?.children === 'SYSTEM STATUS');
+    expect(statusLabel).toBeDefined();
+    expect(statusLabel?.props.style?.color).toBe(customAccent);
+  });
+
+  it('truncates long siteName values to 40 characters', () => {
+    const longSite = 'https://subdomain.verylongdomainnameforstatuspage.example.com/status';
+    const output = render({ siteName: longSite });
+    const siteText = output.find((t) => t.startsWith('https://subdomain'));
+    expect(siteText).toBeDefined();
+    expect(siteText?.length).toBeLessThanOrEqual(40);
+    expect(siteText?.endsWith('…')).toBe(true);
+  });
+
+  it('sets flex: 1, minWidth: 0, paddingRight on the name column and flexShrink: 0 on pills', () => {
+    const all = elements(tree({ siteName: 'status.example.com' }));
+    const nameColumn = all.find(
+      (el) =>
+        el.type === 'div' &&
+        Array.isArray(el.props.children) &&
+        (el.props.children as SatoriElement[]).some((child) => child?.type === 'h1')
+    );
+    expect(nameColumn).toBeDefined();
+    expect(nameColumn?.props.style?.flex).toBe(1);
+    expect(nameColumn?.props.style?.minWidth).toBe(0);
+    expect(nameColumn?.props.style?.paddingRight).toBe('24px');
+
+    const statusPill = all.find(
+      (el) =>
+        el.type === 'div' &&
+        el.props.style?.padding === '6px 14px' &&
+        el.props.style?.borderRadius === '16px'
+    );
+    expect(statusPill).toBeDefined();
+    expect(statusPill?.props.style?.flexShrink).toBe(0);
+
+    const sitePill = all.find(
+      (el) =>
+        el.type === 'div' &&
+        el.props.style?.padding === '8px 16px' &&
+        el.props.style?.borderRadius === '8px'
+    );
+    expect(sitePill).toBeDefined();
+    expect(sitePill?.props.style?.flexShrink).toBe(0);
   });
 
   it('has root canvas dimensions of 1200x630 with display flex on all container elements', () => {
