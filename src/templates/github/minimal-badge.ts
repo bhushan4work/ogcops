@@ -10,7 +10,7 @@ const template: TemplateDefinition = {
   fields: [
     { key: 'repoName', label: 'Repository', type: 'text', defaultValue: 'my-project', placeholder: 'repo-name', group: 'Content' },
     commonFields.description,
-    { key: 'icon', label: 'Icon/Emoji', type: 'text', defaultValue: '\u2B21', placeholder: 'Symbol or text', group: 'Content' },
+    { key: 'icon', label: 'Icon', type: 'text', defaultValue: '\u2B21', placeholder: 'Symbol or text', group: 'Content' },
     { key: 'badge', label: 'Badge Text', type: 'text', defaultValue: 'Open Source', placeholder: 'Badge label', group: 'Content' },
     commonFields.bgColor,
     commonFields.accentColor,
