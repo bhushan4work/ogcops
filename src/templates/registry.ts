@@ -147,11 +147,13 @@ import eventVenueMap from './event/venue-map';
 import eventTicketCta from './event/ticket-cta';
 import eventMultiSpeaker from './event/multi-speaker';
 import eventAgenda from './event/agenda';
+import eventOfficeHours from './event/office-hours';
 
 [
   eventConference, eventMeetup, eventWebinar, eventWorkshop, eventHackathon,
   eventSpeakerSpotlight, eventCountdown, eventVenueMap, eventTicketCta, eventMultiSpeaker,
   eventAgenda,
+  eventOfficeHours,
 ].forEach(registerTemplate);
 
 // Podcast
