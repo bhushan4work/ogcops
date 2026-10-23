@@ -1,5 +1,5 @@
 import type { TemplateDefinition } from '../types';
-import { autoFontSize, commonFields, truncate } from '../utils';
+import { autoFontSize, commonFields, isLightColor, mixColors, truncate } from '../utils';
 
 const template: TemplateDefinition = {
   id: 'developer-now',
@@ -26,13 +26,17 @@ const template: TemplateDefinition = {
   render: (params) => {
     const name = truncate(String(params.name || 'Developer'), 42);
     const title = truncate(String(params.title || 'What I am focused on now'), 90);
-    const updated = params.updated ? truncate(String(params.updated), 24) : '';
+    const building = String(params.building ?? '').trim();
+    const learning = String(params.learning ?? '').trim();
+    const reading = String(params.reading ?? '').trim();
+    const updatedValue = String(params.updated ?? '').trim();
+    const updated = updatedValue ? truncate(updatedValue, 24) : '';
     const bgColor = String(params.bgColor || '#F5F1EA');
     const accentColor = String(params.accentColor || '#E07A5F');
     const textColor = String(params.textColor || '#1E1E1E');
     const rows = [
-      { label: 'BUILDING', value: params.building }, { label: 'LEARNING', value: params.learning },
-      { label: 'READING', value: params.reading },
+      { label: 'BUILDING', value: building }, { label: 'LEARNING', value: learning },
+      { label: 'READING', value: reading },
     ].filter((row) => row.value);
 
     return {
@@ -48,7 +52,7 @@ const template: TemplateDefinition = {
             { type: 'span', props: { style: { display: 'flex', fontSize: autoFontSize(title, [{ maxLen: 36, size: 54 }, { maxLen: 60, size: 46 }, { maxLen: 90, size: 38 }]), lineHeight: 1.08, fontWeight: 700, maxWidth: '920px', fontFamily: 'Playfair Display, serif' }, children: title } },
             { type: 'div', props: { style: { display: 'flex', flexDirection: 'column', gap: '18px', marginTop: '48px', maxWidth: '1050px' }, children: rows.map((row) => ({
               type: 'div', props: { style: { display: 'flex', alignItems: 'flex-start', gap: '32px' }, children: [
-                { type: 'span', props: { style: { display: 'flex', flexShrink: 0, width: '120px', paddingTop: '5px', fontSize: '13px', fontWeight: 700, color: accentColor, letterSpacing: '0.14em' }, children: row.label } },
+                { type: 'span', props: { style: { display: 'flex', flexShrink: 0, width: '120px', paddingTop: '5px', fontSize: '13px', fontWeight: 700, color: isLightColor(bgColor) ? mixColors(accentColor, '#000000', 0.45) : accentColor, letterSpacing: '0.14em' }, children: row.label } },
                 { type: 'span', props: { style: { display: 'flex', minWidth: 0, fontSize: '22px', lineHeight: 1.35, color: textColor, overflowWrap: 'anywhere' }, children: truncate(String(row.value), 120) } },
               ] },
             })) } },
