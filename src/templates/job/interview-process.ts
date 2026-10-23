@@ -109,8 +109,9 @@ const template: TemplateDefinition = {
                   props: {
                     style: {
                       display: 'flex',
-                      flex: 1,
-                      alignItems: 'center',
+                      alignItems: 'flex-start',
+                      marginTop: 'auto',
+                      marginBottom: 'auto',
                       width: '100%',
                     },
                     children: steps.map((step, i) => ({
@@ -186,9 +187,7 @@ const template: TemplateDefinition = {
                             type: 'span',
                             props: {
                               style: {
-                                width: '100%',
                                 padding: '0 16px',
-                                boxSizing: 'border-box' as const,
                                 marginTop: '24px',
                                 fontSize: '20px',
                                 fontWeight: 600,
