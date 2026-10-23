@@ -10,3 +10,6 @@ export { default as githubMinimalBadge } from './minimal-badge';
 export { default as githubMatrix } from './matrix';
 export { default as githubContributorsWall } from './contributors-wall';
 export { default as githubIssueCard } from './issue-card';
+export { default as githubPullRequest } from './pull-request';
+export { default as githubGoodFirstIssues } from './good-first-issues';
+export { default as githubMilestone } from './milestone';

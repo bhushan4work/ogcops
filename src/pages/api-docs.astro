@@ -497,20 +497,29 @@ const { content } = await res.json();`}</code></pre>
 </Layout>
 
 <script is:inline>
-  document.querySelectorAll('[data-copy]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var codeBlock = this.closest('.code-block');
-      var code = codeBlock ? (codeBlock.querySelector('code')?.textContent || '') : '';
-      navigator.clipboard.writeText(code).then(function() {
-        btn.textContent = 'Copied!';
-        if (window.showToast) window.showToast('Copied to clipboard!', 'success');
-        setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+  // ClientRouter runs this script once. The buttons and the sidebar are new elements
+  // after every navigation, so they are set up on every page load, and the one scroll
+  // listener uses the sidebar and sections of the page that is showing.
+  var sidebarLinks = [];
+  var sections = [];
+
+  function initApiDocs() {
+    document.querySelectorAll('[data-copy]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var codeBlock = this.closest('.code-block');
+        var code = codeBlock ? (codeBlock.querySelector('code')?.textContent || '') : '';
+        navigator.clipboard.writeText(code).then(function() {
+          btn.textContent = 'Copied!';
+          if (window.showToast) window.showToast('Copied to clipboard!', 'success');
+          setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+        });
       });
     });
-  });
 
-  var sidebarLinks = document.querySelectorAll('.api-sidebar-link');
-  var sections = document.querySelectorAll('.endpoint-card[id]');
+    sidebarLinks = document.querySelectorAll('.api-sidebar-link');
+    sections = document.querySelectorAll('.endpoint-card[id]');
+    updateSidebar();
+  }
 
   function updateSidebar() {
     var current = '';
@@ -528,5 +537,5 @@ const { content } = await res.json();`}</code></pre>
   }
 
   window.addEventListener('scroll', updateSidebar, { passive: true });
-  updateSidebar();
+  document.addEventListener('astro:page-load', initApiDocs);
 </script>

@@ -1,5 +1,5 @@
 import type { TemplateDefinition } from '../types';
-import { truncate, autoFontSize, commonFields } from '../utils';
+import { truncate, autoFontSize, commonFields, musicNoteIcon } from '../utils';
 
 const template: TemplateDefinition = {
   id: 'podcast-minimal-player',
@@ -35,7 +35,13 @@ const template: TemplateDefinition = {
     const episodeNumber = String(params.episodeNumber || '');
     const duration = String(params.duration || '');
     const currentTime = String(params.currentTime || '');
-    const progressPercent = Number(params.progressPercent || 35);
+    const rawProgress = params.progressPercent;
+    const progressValue = rawProgress === undefined || rawProgress === null || String(rawProgress).trim() === ''
+      ? 35
+      : Number(rawProgress);
+    const progressPercent = Number.isFinite(progressValue)
+      ? Math.min(100, Math.max(0, Math.round(progressValue)))
+      : 35;
     const bgColor = String(params.bgColor || '#0a0a0a');
     const accentColor = String(params.accentColor || '#E07A5F');
     const textColor = String(params.textColor || '#FFFFFF');
@@ -97,13 +103,7 @@ const template: TemplateDefinition = {
                             borderRadius: '14px',
                             background: `linear-gradient(135deg, ${accentColor}, ${accentColor}88)`,
                           },
-                          children: {
-                            type: 'span',
-                            props: {
-                              style: { fontSize: '28px', color: '#FFFFFF' },
-                              children: '\u266A',
-                            },
-                          },
+                          children: musicNoteIcon(28, '#FFFFFF'),
                         },
                       },
                       {

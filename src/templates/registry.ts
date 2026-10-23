@@ -106,12 +106,16 @@ import saasStartupBold from './saas/startup-bold';
 import saasFeatureSpotlight from './saas/feature-spotlight';
 import saasSocialProof from './saas/social-proof';
 import saasIntegration from './saas/integration';
+import saasUptimeStatus from './saas/uptime-status';
+import saasApiEndpoint from './saas/api-endpoint';
 
 [
   saasDashboardPreview, saasPricingHighlight, saasMetricShowcase, saasTestimonialBanner,
   saasComparison, saasGradientMesh, saasCleanCorporate, saasStartupBold,
   saasFeatureSpotlight, saasSocialProof,
   saasIntegration,
+  saasUptimeStatus,
+  saasApiEndpoint,
 ].forEach(registerTemplate);
 
 // GitHub
@@ -127,12 +131,18 @@ import githubMinimalBadge from './github/minimal-badge';
 import githubMatrix from './github/matrix';
 import githubContributorsWall from './github/contributors-wall';
 import githubIssueCard from './github/issue-card';
+import githubPullRequest from './github/pull-request';
+import githubGoodFirstIssues from './github/good-first-issues';
+import githubMilestone from './github/milestone';
 
 [
   githubRepoCard, githubContributionGraph, githubReadmeHero, githubReleaseNotes,
   githubLanguageBars, githubStarsBanner, githubTerminalStyle, githubCodeWindow,
   githubMinimalBadge, githubMatrix, githubContributorsWall,
   githubIssueCard,
+  githubPullRequest,
+  githubGoodFirstIssues,
+  githubMilestone,
 ].forEach(registerTemplate);
 
 // Event
@@ -148,12 +158,14 @@ import eventTicketCta from './event/ticket-cta';
 import eventMultiSpeaker from './event/multi-speaker';
 import eventAgenda from './event/agenda';
 import eventOfficeHours from './event/office-hours';
+import eventWinners from './event/winners';
+import eventCallForSpeakers from './event/call-for-speakers';
 
 [
   eventConference, eventMeetup, eventWebinar, eventWorkshop, eventHackathon,
   eventSpeakerSpotlight, eventCountdown, eventVenueMap, eventTicketCta, eventMultiSpeaker,
-  eventAgenda,
-  eventOfficeHours,
+  eventAgenda, eventOfficeHours, eventWinners,
+  eventCallForSpeakers,
 ].forEach(registerTemplate);
 
 // Podcast
@@ -183,11 +195,14 @@ import developerResumeHeader from './developer/resume-header';
 import developerVscodeTheme from './developer/vscode-theme';
 import developerLinkTree from './developer/link-tree';
 import developerOpenToWork from './developer/open-to-work';
+import developerDayStreak from './developer/day-streak';
+import developerNow from './developer/now';
 
 [
   developerPortfolioCard, developerTechStack, developerTerminalBio, developerGradientProfile,
   developerSkillsRadar, developerGithubStyle, developerResumeHeader, developerVscodeTheme,
-  developerLinkTree, developerOpenToWork,
+  developerLinkTree, developerOpenToWork, developerDayStreak,
+  developerNow,
 ].forEach(registerTemplate);
 
 // Newsletter
@@ -217,10 +232,12 @@ import quoteBoldHighlight from './quote/bold-highlight';
 import quoteMinimalDash from './quote/minimal-dash';
 import quotePhotoBackground from './quote/photo-background';
 import quoteStickyNote from './quote/sticky-note';
+import quoteCodeComment from './quote/code-comment';
 
 [
   quoteCenteredSerif, quoteGradientCard, quoteSpeechBubble, quoteTwitterStyle,
   quoteBookPage, quoteBoldHighlight, quoteMinimalDash, quotePhotoBackground, quoteStickyNote,
+  quoteCodeComment,
 ].forEach(registerTemplate);
 
 // E-commerce
@@ -233,11 +250,13 @@ import ecommerceNewArrival from './ecommerce/new-arrival';
 import ecommerceComparisonGrid from './ecommerce/comparison-grid';
 import ecommerceBrandStory from './ecommerce/brand-story';
 import ecommerceCouponCode from './ecommerce/coupon-code';
+import ecommerceBundleDeal from './ecommerce/bundle-deal';
+import ecommerceOrderStatus from './ecommerce/order-status';
 
 [
   ecommerceProductCard, ecommerceSaleBanner, ecommerceCollection, ecommerceReviewHighlight,
   ecommercePriceDrop, ecommerceNewArrival, ecommerceComparisonGrid, ecommerceBrandStory,
-  ecommerceCouponCode,
+  ecommerceCouponCode, ecommerceOrderStatus, ecommerceBundleDeal,
 ].forEach(registerTemplate);
 
 // Job
@@ -249,10 +268,13 @@ import jobSalaryHighlight from './job/salary-highlight';
 import jobTeamPhoto from './job/team-photo';
 import jobStartupHiring from './job/startup-hiring';
 import jobDeveloperRole from './job/developer-role';
+import jobOpenRoles from './job/open-roles';
+import jobInterviewProcess from './job/interview-process';
 
 [
   jobListingCard, jobTechStackRole, jobRemoteBadge, jobCompanyCulture,
   jobSalaryHighlight, jobTeamPhoto, jobStartupHiring, jobDeveloperRole,
+  jobOpenRoles, jobInterviewProcess,
 ].forEach(registerTemplate);
 
 // Tutorial
@@ -265,9 +287,11 @@ import tutorialCodeTutorial from './tutorial/code-tutorial';
 import tutorialWorkshopBanner from './tutorial/workshop-banner';
 import tutorialCertification from './tutorial/certification';
 import tutorialQuizCard from './tutorial/quiz-card';
+import tutorialCheatSheet from './tutorial/cheat-sheet';
+import tutorialBeforeAfter from './tutorial/before-after';
 
 [
   tutorialCourseCard, tutorialStepByStep, tutorialVideoLesson, tutorialDifficultyBadge,
   tutorialPlatformBranded, tutorialCodeTutorial, tutorialWorkshopBanner, tutorialCertification,
-  tutorialQuizCard,
+  tutorialQuizCard, tutorialCheatSheet, tutorialBeforeAfter,
 ].forEach(registerTemplate);
