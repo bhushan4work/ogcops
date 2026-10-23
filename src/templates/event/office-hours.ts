@@ -1,5 +1,5 @@
 import type { TemplateDefinition } from '../types';
-import { autoFontSize, commonFields, contrastText, truncate } from '../utils';
+import { autoFontSize, commonFields, contrastText, isLightColor, mixColors, truncate } from '../utils';
 
 const template: TemplateDefinition = {
   id: 'event-office-hours',
@@ -36,14 +36,15 @@ const template: TemplateDefinition = {
     };
     const title = truncate(value('title', 'Ask the maintainers') || 'Ask the maintainers', 90);
     const schedule = truncate(value('schedule', 'Every Thursday · 17:00 to 18:00 IST') || 'Every Thursday · 17:00 to 18:00 IST', 64);
-    const host = value('host', '');
-    const hostRole = value('hostRole');
+    const host = truncate(value('host', ''), 40);
+    const hostRole = truncate(value('hostRole'), 48);
     const topic = truncate(value('topic'), 90);
-    const ctaText = value('ctaText');
+    const ctaText = truncate(value('ctaText'), 28);
     const bgColor = value('bgColor', '#f5f1e8');
     const accentColor = value('accentColor', '#5b4bdb');
     const textColor = value('textColor', '#171521');
     const ctaColor = contrastText(accentColor);
+    const labelColor = isLightColor(accentColor) === isLightColor(bgColor) ? mixColors(accentColor, textColor, 0.55) : accentColor;
     const titleSize = autoFontSize(title, [
       { maxLen: 30, size: 70 },
       { maxLen: 50, size: 58 },
@@ -56,7 +57,7 @@ const template: TemplateDefinition = {
       props: {
         style: { display: 'flex', flexDirection: 'column', width: '1200px', height: '630px', background: bgColor, fontFamily: 'Inter, sans-serif', padding: '58px 68px' },
         children: [
-          { type: 'span', props: { style: { fontSize: '16px', fontWeight: 700, color: accentColor, letterSpacing: '0.16em', textTransform: 'uppercase' }, children: 'Office hours' } },
+          { type: 'span', props: { style: { fontSize: '16px', fontWeight: 700, color: labelColor, letterSpacing: '0.16em', textTransform: 'uppercase' }, children: 'Office hours' } },
           { type: 'div', props: { style: { display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center', maxWidth: '1000px' }, children: [
             { type: 'h1', props: { style: { fontSize: `${titleSize}px`, fontWeight: 700, lineHeight: 1.08, color: textColor, margin: 0, maxWidth: '1000px' }, children: title } },
             { type: 'span', props: { style: { marginTop: '28px', fontSize: '25px', fontWeight: 600, color: textColor }, children: schedule } },
