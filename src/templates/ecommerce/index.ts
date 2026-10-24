@@ -9,3 +9,4 @@ export { default as ecommerceBrandStory } from './brand-story';
 export { default as ecommerceCouponCode } from './coupon-code';
 export { default as ecommerceBundleDeal } from './bundle-deal';
 export { default as ecommerceOrderStatus } from './order-status';
+export { default as ecommerceGiftCard } from './gift-card';
