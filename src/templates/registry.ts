@@ -224,11 +224,13 @@ import newsletterSubscriberCount from './newsletter/subscriber-count';
 import newsletterSubscribeCard from './newsletter/subscribe-card';
 import newsletterSponsor from './newsletter/sponsor';
 import newsletterPoll from './newsletter/poll';
+import newsletterWelcome from './newsletter/welcome';
 
 [
   newsletterIssueCard, newsletterDigestBanner, newsletterPreviewText, newsletterEditorial,
   newsletterCuratedLinks, newsletterMinimalNumber, newsletterNewspaperFold, newsletterSubscriberCount,
   newsletterSubscribeCard, newsletterSponsor, newsletterPoll,
+  newsletterWelcome,
 ].forEach(registerTemplate);
 
 // Quote

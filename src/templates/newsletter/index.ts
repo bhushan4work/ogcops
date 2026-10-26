@@ -9,3 +9,4 @@ export { default as newsletterSubscriberCount } from './subscriber-count';
 export { default as newsletterSubscribeCard } from './subscribe-card';
 export { default as newsletterSponsor } from './sponsor';
 export { default as newsletterPoll } from './poll';
+export { default as newsletterWelcome } from './welcome';
