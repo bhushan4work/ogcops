@@ -12,3 +12,4 @@ export { default as blogGeometric } from './geometric';
 export { default as blogRetroTerminal } from './retro-terminal';
 export { default as blogSeriesPart } from './series-part';
 export { default as blogSummaryCard } from './summary-card';
+export { default as blogTableOfContents } from './table-of-contents';

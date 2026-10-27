@@ -56,6 +56,7 @@ import blogGeometric from './blog/geometric';
 import blogRetroTerminal from './blog/retro-terminal';
 import blogSeriesPart from './blog/series-part';
 import blogSummaryCard from './blog/summary-card';
+import blogTableOfContents from './blog/table-of-contents';
 
 [
   blogMinimalDark,
@@ -72,6 +73,7 @@ import blogSummaryCard from './blog/summary-card';
   blogRetroTerminal,
   blogSeriesPart,
   blogSummaryCard,
+  blogTableOfContents,
 ].forEach(registerTemplate);
 
 // Product
